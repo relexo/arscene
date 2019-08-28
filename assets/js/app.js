@@ -4,15 +4,14 @@ var queryParamToken = getQueryString("token");
 
 function InitPage(loadWindowFunc) {
     var n = null;
-    var v = null;
+    var cameraView = document.querySelector("#v");
     var container;
+    //const map = new AMap.Map();
     var camera, scene, renderer;
     var mouseX = 0, mouseY = 0;
     var windowHalfX = window.innerWidth / 2;
     var windowHalfY = window.innerHeight / 2;
-    //init();
-    //animate();
-    initCanvas(window.innerWidth, window.innerHeight);
+    var constraints = { video: { facingMode: 'environment' }, audio: false };;
     setwebcam();
     const threeHelper = new ThreeHelper();
     const setting = {
@@ -235,66 +234,68 @@ function InitPage(loadWindowFunc) {
             }
         });
     }
-
-    //初始化canvas元素，形成一个矩形框
-    function initCanvas(w, h) {
-        v = document.getElementById("v");
-        v.style.width = w + "px";
-        v.style.height = h + "px";
-    }
-
-    //兼容性判断
-    var deviceControl;
-    window.URL = window.URL || window.webkitURL || window.mozURL || window.msURL;
-    function getUserMedia(constraints, success, error) {
-        if (navigator.mediaDevices.getUserMedia) {
-            //最新的标准API
-            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
-        } else if (navigator.webkitGetUserMedia) {
-            //webkit核心浏览器
-            navigator.webkitGetUserMedia(constraints, success, error)
-        } else if (navigator.mozGetUserMedia) {
-            //firfox浏览器
-            navigator.mozGetUserMedia(constraints, success, error);
-        } else if (navigator.getUserMedia) {
-            //旧版API
-            navigator.getUserMedia(constraints, success, error);
-        }
-    }
-
     function setwebcam() {
-        var options = true;
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
-            devices.forEach(function (device) {
-                if (device.kind == 'videoinput') {
-                    options = { //帧率
-                        frameRate: { ideal: 60, max: 60, min: 30 },
-                        'deviceId': { 'exact': device.deviceId }
+            devices.forEach(device => {
+                if (device.kind === "videoinput") {
+                    constraints = {
+                        video: { deviceId: { exact: device.deviceId } }, audio: false
                     };
                 }
             });
-            setwebcam2(options);
-
-        }).catch(function (err) {
-            alert("摄像头错误[errmsg:" + err + "]"); 
         });
+
+        navigator.mediaDevices
+            .getUserMedia(constraints)
+            .then(function (stream) {
+                track = stream.getTracks()[0];
+                cameraView.srcObject = stream;
+            })
+            .catch(function (error) {
+                console.error("Oops. Something is broken.", error);
+            });
     }
-    function success(stream) {
-        //alert('Succeed to get media!');
-        if (v.srcObject !== undefined) {
-            //Firefox中，video.mozSrcObject最初为null，而不是未定义的，我们可以靠这个来检测Firefox的支持
-            v.srcObject = stream;
+
+    //定位服务
+    function getCurrentPosition() {//调用浏览器定位服务
+        map.plugin('AMap.Geolocation', function () {
+            geolocation = new AMap.Geolocation({
+                enableHighAccuracy: true, //是否使用高精度定位，默认:true
+                timeout: 10000, //超过10秒后停止定位，默认：无穷大
+                buttonOffset: new AMap.Pixel(10, 20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                zoomToAccuracy: true, //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+                buttonPosition: 'RB'
+            });
+            map.addControl(geolocation);
+            geolocation.getCurrentPosition();
+            AMap.event.addListener(geolocation, 'complete', onComplete);
+            //返回定位信息
+            AMap.event.addListener(geolocation, 'error', onError);
+            //返回定位出错信息
+        });
+    };
+
+    //获取经纬度结果数组，0为经度，1为纬度
+    function onComplete(data) {
+        return [data.position.getLng(), data.position.getLat()];
+    };
+    //获取错误信息，返回错误结果提示
+    function onError(data) {
+        var str;
+        switch (data.info) {
+            case 'PERMISSION_DENIED':
+                str += '浏览器阻止了定位操作';
+                break;
+            case 'POSITION_UNAVAILBLE':
+                str += '无法获得当前位置';
+                break;
+            case 'TIMEOUT':
+                str += '定位超时';
+                break;
+            default:
+                str += '未知错误';
+                break;
         }
-        else {
-            v.src = window.URL && window.URL.createObjectURL(stream) || stream;
-        }
-        v.play();
-    }
-    function error(error) {
-        console.log(error);
-    }
-    function setwebcam2(options) { v 
-        var p = getUserMedia({ video: options, audio: false }, success, error);
-        //p.then(success, error);
-    }
+        return str;
+    };
 }
