@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AR场景</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <style>
+        .scanning_frame {
+            border: 1px solid #000;
+            position: relative;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .none {
+            display: none;
+        }
+
+        .mainCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            z-index: 90;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="outdiv" class="scanning_frame">
+        <video id="v" style="object-fit: fill;"></video>
+    </div>
+    <script src="assets/js/libs/three/three.js"></script>
+    <script src="assets/js/libs/three/inflate.min.js"></script>
+    <script src="assets/js/libs/three/FBXLoader.js"></script>
+    <script src="assets/js/libs/three/OrbitControls.js"></script>
+    <script src="assets/js/ThreeHelper.js"></script>
+    <script src="assets/js/jsUtil.js"></script>
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/app.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //<!==queryParamWorksId==>为跳转来的url中携带的worksId参数，直接使用
+            //<!==queryParamWorksNum==>为跳转来的url中携带的worksNum参数，直接使用
+            //<!==queryParamToken==>为跳转来的url中携带的token参数，直接使用
+            //如果为空，证明url中找不到
+
+            /**函数用于回调加载模型后的处理
+             *@method loadModuleWindow
+             *@param{jsonString}luckyResult 中奖结果的json结构
+             *@return {void}
+            */
+            var loadModuleWindowFunc = function loadModuleWindow(luckyResult) {
+
+            }
+
+            InitPage(loadModuleWindowFunc);
+        }); 
+
+    </script>
+</body>
+</html>
