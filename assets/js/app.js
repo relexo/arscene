@@ -21,123 +21,123 @@ function InitPage(loadWindowFunc) {
     };
 
     //模型加载部分
-    var loader = new THREE.FBXLoader();
-    var textureLoader = new THREE.TextureLoader();
-    var textures = [];
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/1.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/2.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/3.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/5.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/6.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/7.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/8.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/9.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/10.png'));
-    textures.push(textureLoader.load('assets/images/3DModel/70zn/12.png'));
+    //var loader = new THREE.FBXLoader();
+    //var textureLoader = new THREE.TextureLoader();
+    //var textures = [];
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/1.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/2.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/3.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/5.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/6.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/7.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/8.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/9.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/10.png'));
+    //textures.push(textureLoader.load('assets/images/3DModel/70zn/12.png'));
 
-    loader.load(setting.model, (object) => {
-        object.scale.multiplyScalar(setting.scale);
-        object.position.set(setting.position[0], setting.position[1], setting.position[2]);
-        object.traverse(function (child) {
-            for (var i = 0; i < child.children.length; i++) {
-                if (child.children[i].name == "Sphere001") {
-                    console.info(child.children[i].name)
-                    child.children[i].visible = false;
-                    child.children[i].geometry.dispose();
-                    child.children[i].material.dispose();
-                }
-                console.info(child.children[i].name);
-                if (child.children[i].isMesh) {
-                    var material = new THREE.MeshStandardMaterial({
-                        transparent: true
-                    });
-                    switch (child.children[i].name) {
-                        case "Plane002":
-                            material.map = textures[0];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane003":
-                            material.map = textures[1];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane004":
-                            material.map = textures[2];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane005":
-                            material.map = textures[3];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane006":
-                            material.map = textures[4];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane007":
-                            material.map = textures[5];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane008":
-                            material.map = textures[6];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane012":
-                            material.map = textures[9];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane009":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "对象001":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane010":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "对象002":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "Plane011":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "对象003":
-                            material.map = textures[8];
-                            child.children[i].material = material;
-                            break;
-                        case "IMG":
+    //loader.load(setting.model, (object) => {
+    //    object.scale.multiplyScalar(setting.scale);
+    //    object.position.set(setting.position[0], setting.position[1], setting.position[2]);
+    //    object.traverse(function (child) {
+    //        for (var i = 0; i < child.children.length; i++) {
+    //            if (child.children[i].name == "Sphere001") {
+    //                console.info(child.children[i].name)
+    //                child.children[i].visible = false;
+    //                child.children[i].geometry.dispose();
+    //                child.children[i].material.dispose();
+    //            }
+    //            console.info(child.children[i].name);
+    //            if (child.children[i].isMesh) {
+    //                var material = new THREE.MeshStandardMaterial({
+    //                    transparent: true
+    //                });
+    //                switch (child.children[i].name) {
+    //                    case "Plane002":
+    //                        material.map = textures[0];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane003":
+    //                        material.map = textures[1];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane004":
+    //                        material.map = textures[2];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane005":
+    //                        material.map = textures[3];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane006":
+    //                        material.map = textures[4];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane007":
+    //                        material.map = textures[5];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane008":
+    //                        material.map = textures[6];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane012":
+    //                        material.map = textures[9];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane009":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "对象001":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane010":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "对象002":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "Plane011":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "对象003":
+    //                        material.map = textures[8];
+    //                        child.children[i].material = material;
+    //                        break;
+    //                    case "IMG":
 
-                            child.children[i].position.x = child.children[i].position.x + 10;
-                            break;
-                        default:
-                    }
-                    //var material = new THREE.MeshStandardMaterial({
-                    //    map: textures[i],
-                    //    transparent: true
-                    //});
-                    //child.children[i].material = material;
-                    //child.children[i].castShadow = true;
-                    //child.children[i].receiveShadow = true;
-                }
-            }
-        });
-        //模型加载到场景里之后，开始请求接口
-        threeHelper.scene.add(object);
-        if (object.animations.length > 0) {
-            var mixer = new THREE.AnimationMixer(object);
-            threeHelper.mixers.push(mixer);
-            threeHelper.action.push(mixer.clipAction(object.animations[0]));
-            threeHelper.action[0].play();
-        }
-        setTimeout(function () {
-            LoadObjAnimation(threeHelper, object, loadWindowFunc);
-        }, 2000);
+    //                        child.children[i].position.x = child.children[i].position.x + 10;
+    //                        break;
+    //                    default:
+    //                }
+    //                //var material = new THREE.MeshStandardMaterial({
+    //                //    map: textures[i],
+    //                //    transparent: true
+    //                //});
+    //                //child.children[i].material = material;
+    //                //child.children[i].castShadow = true;
+    //                //child.children[i].receiveShadow = true;
+    //            }
+    //        }
+    //    });
+    //    //模型加载到场景里之后，开始请求接口
+    //    threeHelper.scene.add(object);
+    //    if (object.animations.length > 0) {
+    //        var mixer = new THREE.AnimationMixer(object);
+    //        threeHelper.mixers.push(mixer);
+    //        threeHelper.action.push(mixer.clipAction(object.animations[0]));
+    //        threeHelper.action[0].play();
+    //    }
+    //    setTimeout(function () {
+    //        LoadObjAnimation(threeHelper, object, loadWindowFunc);
+    //    }, 2000);
 
 
-    });
+    //});
 
     function setwebcam() {
         navigator.mediaDevices.enumerateDevices().then(function (devices) {
