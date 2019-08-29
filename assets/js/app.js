@@ -13,7 +13,7 @@ function InitPage(loadWindowFunc) {
     var windowHalfY = window.innerHeight / 2;
     var constraints = { video: { facingMode: 'environment' }, audio: false };;
     setwebcam();
-    const threeHelper = new ThreeHelper();
+    //const threeHelper = new ThreeHelper();
     const setting = {
         model: "assets/images/3DModel/70zn/70zn.fbx",
         scale: 0.5,
